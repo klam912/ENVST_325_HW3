@@ -104,7 +104,7 @@ ggplot(all_time_emissions_Americas, aes(x=Entity, y=total_emission / 1e9)) +
   labs(
     x="Country",
     y="Total CO2 Emission (billions of tons in CO2)",
-    title="Total All Time Emissions for US, Mexico, and Canada"
+    title="Total All Time Emissions for US, Mexico, and Canada (1750-2020)"
   )
 
 # Optional challenge
@@ -135,7 +135,7 @@ world_temp_data <- climate_change %>% filter(Entity == "World")
 world_air_temp_graph <- ggplot(world_temp_data, aes(x=Day, y=temperature_anomaly)) +
   # Blue lower half (cooler)
   annotate("rect",
-           xmin = -Inf, xmax = Inf,
+           xmin = -Inf, xmax = Inf, # add x and y boundaries 
            ymin = -Inf, ymax = 0,
            fill = "blue", alpha = 0.1) +
   
@@ -145,7 +145,7 @@ world_air_temp_graph <- ggplot(world_temp_data, aes(x=Day, y=temperature_anomaly
            ymin = 0, ymax = Inf,
            fill = "red", alpha = 0.1) +
   geom_line() +
-  geom_hline(yintercept = 0, color="red") +
+  geom_hline(yintercept = 0, color="red") + # add a horizontal line at 0
   labs(
     x = "Year",
     y = "Temperature Anomaly (Celsius)",
@@ -157,18 +157,14 @@ world_air_temp_graph <- ggplot(world_temp_data, aes(x=Day, y=temperature_anomaly
   )
 
 # Graph change in CO2 emission for world
-world_co2data1 <- world_co2data %>%
-  arrange(Year) %>%
-  mutate(co2_emission_diff = CO2 - lag(CO2)) # subtract CO2 from current to past year
-
-world_co2_emission_graph <- ggplot(world_co2data1, aes(x=Year, y=co2_emission_diff/1e9)) +
+world_co2_emission_graph <- ggplot(world_co2data, aes(x=Year, y=CO2/1e9)) +
   geom_line() +
   labs(
     x = "Year",
-    y = "Change in CO2 Emission (billion of tons in CO2)",
-    title = "Changes in CO2 Emission (1750-2020)"
+    y = "CO2 Emission (billion of tons in CO2)",
+    title = "World CO2 Emission (1750-2020)"
   ) +
-  geom_hline(yintercept = 0, color="red")
+  theme_classic()
 
 # Question 3
 # Read in data
